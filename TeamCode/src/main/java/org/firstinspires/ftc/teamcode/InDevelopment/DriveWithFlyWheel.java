@@ -5,22 +5,20 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 
+import org.firstinspires.ftc.teamcode.RobotHardware.Launcher;
+
 @TeleOp(name=" Strafer with shooters")
 public class DriveWithFlyWheel extends LinearOpMode {
+
+    Launcher Launcher = new Launcher();
     public DcMotor rightBackDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor leftBackDrive = null;
     public DcMotor leftFrontDrive = null;
-    public DcMotorEx leftFlywheel = null;
-    public DcMotorEx rightFlywheel = null;
-    public double leftBumperLastTime, rightBumperLastTime = 0;
-    public static double MAX_SHOOTER_SPEED = 6000;
-    double shooterSpeed = 3000;
-    public boolean shootersOn = false;
-    public boolean aButtonPressed = false;
 
     @Override
     public void runOpMode() {
+        Launcher. init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -31,13 +29,9 @@ public class DriveWithFlyWheel extends LinearOpMode {
         leftBackDrive = hardwareMap.get(DcMotor.class, "leftBackDrive");
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
-        leftFlywheel = hardwareMap.get(DcMotorEx.class, "leftFlywheel");
-        rightFlywheel = hardwareMap.get(DcMotorEx.class, "rightFlywheel");
 
 
         // Set motor directions
-        rightFlywheel.setDirection(DcMotor.Direction.REVERSE);
-        leftFlywheel.setDirection(DcMotor.Direction.FORWARD);
         rightFrontDrive.setDirection(DcMotor.Direction.FORWARD);
         rightBackDrive.setDirection(DcMotor.Direction.FORWARD);
         leftFrontDrive.setDirection(DcMotor.Direction.REVERSE);
@@ -58,44 +52,10 @@ public class DriveWithFlyWheel extends LinearOpMode {
             double drive = -gamepad1.left_stick_y;  // Controls forward and backward movement
             double strafe = gamepad1.left_stick_x;   // Controls side-to-side movement
             double turn = gamepad1.right_stick_x;    // Controls turning/rotation
-           // double woundUpPower = gamepad1.right_trigger;
 
 
-            // shooter speed increment based on how long the bumpers
-            // has been pressed
-            if (gamepad1.right_bumper) {
-                if (getRuntime() - rightBumperLastTime > .075) {
-                    if (shooterSpeed < MAX_SHOOTER_SPEED) shooterSpeed += 100;
-                    rightBumperLastTime = getRuntime();
-                }
-            }
 
-            else if (gamepad1.left_bumper) {
-                if (getRuntime() - leftBumperLastTime > .075) {
-                    if (shooterSpeed > 0) shooterSpeed -= 100;
-                    leftBumperLastTime = getRuntime();
-                }
-            }
-
-            if(gamepad1.a){
-                if (!aButtonPressed)
-                {
-                   aButtonPressed = true;
-                    shootersOn = !shootersOn;
-                }
-            } else aButtonPressed = false;
-
-            if (shootersOn) {
-                rightFlywheel.setVelocity(shooterSpeed * 28 / 60); // goBilda yellow jacket 6000rpm motor reads 28 ticks/rev, convert from rev/minute to rev/sec
-                leftFlywheel.setVelocity(shooterSpeed * 28 / 60);
-            }else {
-                rightFlywheel.setVelocity(0);
-                leftFlywheel.setVelocity(0);
-            }
-
-            // shooter wheel power
-//            rightFlywheel.setPower(woundUpPower);
-//            leftFlywheel.setPower(woundUpPower);
+            Launcher.run(gamepad1, getRuntime());
 
             // Combine the joystick inputs to calculate the roundupower for each wheel
             double leftFrontPower = drive + strafe + turn;
@@ -128,10 +88,6 @@ public class DriveWithFlyWheel extends LinearOpMode {
             telemetry.addData("Turn (Rotate)", "%.2f", turn);
             telemetry.addData("Front left/Right Power", "%.2f, %.2f", leftFrontPower, rightFrontPower);
             telemetry.addData("Back  left/Right Power", "%.2f, %.2f", leftBackPower, rightBackPower);
-            telemetry.addData("Flywheels ", shootersOn? "ON": "OFF");
-            telemetry.addData("Target Flywheel Speed", "%4f", shooterSpeed);
-            telemetry.addData("Left/Right Flywheel Speed", "%.0f, %.0f", leftFlywheel.getVelocity() / 28 * 60, rightFlywheel.getVelocity() / 28 * 60);
-
             telemetry.update();
 
         }

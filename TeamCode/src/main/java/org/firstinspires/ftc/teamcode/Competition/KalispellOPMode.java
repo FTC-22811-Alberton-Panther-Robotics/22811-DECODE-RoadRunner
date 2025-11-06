@@ -6,12 +6,15 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.RobotHardware.IntakeHardware;
 import org.firstinspires.ftc.teamcode.RobotHardware.LauncherHardware;
 import org.firstinspires.ftc.teamcode.RobotHardware.StrafeHardware;
+import org.firstinspires.ftc.teamcode.RobotHardware.TransferHardware;
+
 import com.qualcomm.robotcore.util.ElapsedTime;
 @TeleOp
 public class KalispellOPMode extends OpMode {
     LauncherHardware launcherHardware = new LauncherHardware();
     IntakeHardware intakeHardware = new IntakeHardware();
     StrafeHardware strafeHardware = new StrafeHardware();
+    TransferHardware transferHardware = new TransferHardware();
     public boolean shootersOn = false;
     private boolean aButtonPressed = false;
     public double targetShooterSpeed_RPM = 3000;
@@ -26,11 +29,12 @@ public class KalispellOPMode extends OpMode {
         strafeHardware.init(hardwareMap);
 }
     @Override
-    public void loop() {
+    public void start() {
 
     }
+
     @Override
-    public void start(){
+    public void loop(){
             ///  Driveing
             double forward = -gamepad1.left_stick_y;  // Controls forward and backward movement
             double strafe = gamepad1.left_stick_x;   // Controls side-to-side movement
@@ -74,14 +78,20 @@ public class KalispellOPMode extends OpMode {
             } else {
                 launcherHardware.runLauncher(0);
             }
-            /// Ball transfer
+            /// Ball transferServo
+            transferHardware.runTransfer(gamepad1.right_trigger > 0.1);
 
+            ///  Telemetry
+            telemetry.addData("Status", "Running");
+            telemetry.addData("Left & Right Flywheel RPM",  "%.2f, %.2f", launcherHardware.getLeftFlywheelRPM(), launcherHardware.getRightFlywheelRPM());
+            telemetry.update();
+    }
 
-
-        }
-
-
-
+    public void stop(){
+        transferHardware.runTransfer(false);
+        intakeHardware.runIntake(false);
+        launcherHardware.stop();
+    }
 
 }
 

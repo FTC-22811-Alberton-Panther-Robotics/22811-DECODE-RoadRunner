@@ -39,9 +39,19 @@ public class LauncherHardware {
         leftFlywheel.setVelocity(targetVelocity_TPS);
     }
 
+    public double getLeftFlywheelRPM() {
+        return (leftFlywheel.getVelocity() * 60/ TICKS_PER_REV);
+    }
+
+    public double getRightFlywheelRPM(){
+        return (rightFlywheel.getVelocity() * 60/ TICKS_PER_REV);
+    }
+
     public void stop() {
         leftFlywheel.setVelocity(0);
         rightFlywheel.setVelocity(0);
     }
+
+
 }
 

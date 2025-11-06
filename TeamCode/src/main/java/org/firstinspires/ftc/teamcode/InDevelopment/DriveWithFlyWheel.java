@@ -3,14 +3,13 @@ package org.firstinspires.ftc.teamcode.InDevelopment;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 
-import org.firstinspires.ftc.teamcode.RobotHardware.Launcher;
+import org.firstinspires.ftc.teamcode.RobotHardware.LauncherHardware;
 
 @TeleOp(name=" Strafer with shooters")
 public class DriveWithFlyWheel extends LinearOpMode {
 
-    Launcher Launcher = new Launcher();
+    LauncherHardware LauncherHardware = new LauncherHardware();
     public DcMotor rightBackDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor leftBackDrive = null;
@@ -18,7 +17,7 @@ public class DriveWithFlyWheel extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Launcher. init(hardwareMap);
+        LauncherHardware. init(hardwareMap);
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
@@ -55,7 +54,7 @@ public class DriveWithFlyWheel extends LinearOpMode {
 
 
 
-            Launcher.run(gamepad1, getRuntime());
+            LauncherHardware.run(gamepad1, getRuntime());
 
             // Combine the joystick inputs to calculate the roundupower for each wheel
             double leftFrontPower = drive + strafe + turn;

@@ -73,7 +73,7 @@ public class ElijahStrafer extends LinearOpMode {
 
             // This loop runs continuously after START is pressed
              while (opModeIsActive()) {
-            //should make active intake start "intaking"
+            //should make active intakeMotor start "intaking"
             leftActiveIntake.setPower(1);
             rightActiveIntake.setPower(1);
 

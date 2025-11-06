@@ -8,11 +8,11 @@ public class TransferHardware {
 
     public void init(HardwareMap hardwareMap){
         transferServo = hardwareMap.get(CRServo.class, "transfer");
-        transferServo.setPower();
+        transferServo.setPower(0);
     }
 
-    public void runTransfer( boolean transferOn){
-        if(transferOn ) {
+    public void runTransfer(boolean transferOn){
+        if(transferOn){
             transferServo.setPower(1);
         }else {
             transferServo.setPower(0);

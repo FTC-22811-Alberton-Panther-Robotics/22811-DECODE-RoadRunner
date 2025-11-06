@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class TransferHardware {
-    public CRServo transferServo = null;
+    public CRServo transferServo;
 
     public void init(HardwareMap hardwareMap){
         transferServo = hardwareMap.get(CRServo.class, "transfer");

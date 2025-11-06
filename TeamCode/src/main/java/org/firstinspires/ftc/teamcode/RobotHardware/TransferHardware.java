@@ -8,7 +8,7 @@ public class TransferHardware {
 
     public void init(HardwareMap hardwareMap){
         transferServo = hardwareMap.get(CRServo.class, "transfer");
-        transferServo.setPower(0);
+        transferServo.setPower();
     }
 
     public void runTransfer( boolean transferOn){

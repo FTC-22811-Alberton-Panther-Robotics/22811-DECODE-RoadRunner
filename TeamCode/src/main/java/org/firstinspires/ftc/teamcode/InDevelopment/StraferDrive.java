@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.InDevelopment;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-@TeleOp(name="Basic: Linear OpMode", group="Linear OpMode")
+@TeleOp(name="Simple Strafer Drive", group="Test")
 @Disabled
 public class StraferDrive extends LinearOpMode {
 
@@ -26,11 +26,12 @@ public class StraferDrive extends LinearOpMode {
         // Initialize the hardware variables. Note that the strings used here as parameters
         // to 'get' must correspond to the names assigned during the robot configuration
         // step (using the FTC Robot Controller app on the phone).
-        leftBackDrive = hardwareMap.get(DcMotor.class, "left_drive_back");
-        leftFrontDrive = hardwareMap.get(DcMotor.class, "left_drive_front");
-        rightBackDrive = hardwareMap.get(DcMotor.class, "right_drive_back");
-        rightFrontDrive = hardwareMap.get(DcMotor.class, "right_drive_front");
+        leftBackDrive = hardwareMap.get(DcMotor.class, "leftBackDrive");
+        leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
+        rightBackDrive = hardwareMap.get(DcMotor.class, "rightBackDrive");
+        rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
 
+        // Most robots need the motor on one side to be reversed to drive forward
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -79,7 +80,7 @@ public class StraferDrive extends LinearOpMode {
 
             // Show the elapsed game time and wheel power.
             telemetry.addData("Status", "Run Time: " + runtime.toString());
-            telemetry.addData("Motors", "leftFront (%.2f), rightFront (%.2f), leftBack (%.2f), rightBack (%.2f)", leftFrontPower,"leftFrontPower, rightFrontPower, leftBackPower, rightBackPower");
+            telemetry.addData("Motors", "LF (%.2f), RF (%.2f), LB (%.2f), RB (%.2f)", leftFrontPower, rightFrontPower, leftBackPower, rightBackPower);
             telemetry.update();
         }
     }

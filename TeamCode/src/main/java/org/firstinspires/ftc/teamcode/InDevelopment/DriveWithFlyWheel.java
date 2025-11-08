@@ -1,11 +1,13 @@
 package org.firstinspires.ftc.teamcode.InDevelopment;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.firstinspires.ftc.teamcode.RobotHardware.LauncherHardware;
 @TeleOp(name=" Strafer with shooters")
+@Disabled
 public class DriveWithFlyWheel extends LinearOpMode {
 
     LauncherHardware LauncherHardware = new LauncherHardware();

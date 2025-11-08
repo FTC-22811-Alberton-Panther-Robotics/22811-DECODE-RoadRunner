@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode.RobotHardware;
 
-import static org.firstinspires.ftc.robotcore.external.BlocksOpModeCompanion.gamepad1;
-
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-public class StrafeHardware {
+public class MecanumHardware {
     public DcMotor rightBackDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor leftBackDrive = null;
@@ -55,8 +52,13 @@ public class StrafeHardware {
             leftBackPower /= max;
             rightBackPower /= max;
         }
+    }
 
-
+    public void stop() {
+        leftFrontDrive.setPower(0);
+        rightFrontDrive.setPower(0);
+        leftBackDrive.setPower(0);
+        rightBackDrive.setPower(0);
     }
 
 

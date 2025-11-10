@@ -6,10 +6,11 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 public class LauncherHardware {
 
-    public DcMotorEx leftFlywheel = null;
-    public DcMotorEx rightFlywheel = null;
+    private DcMotorEx leftFlywheel = null;
+    private DcMotorEx rightFlywheel = null;
     public static double MAX_SHOOTER_SPEED = 6000;
     public static final double TICKS_PER_REV = 28;
+
 
 
 
@@ -37,6 +38,19 @@ public class LauncherHardware {
         double targetVelocity_TPS = (targetShooterSpeed_RPM * TICKS_PER_REV) / 60.0;
         rightFlywheel.setVelocity(targetVelocity_TPS);
         leftFlywheel.setVelocity(targetVelocity_TPS);
+    }
+
+
+    public void reverseRunLauncher(boolean reverselauncher){
+     if(reverselauncher = true){
+         rightFlywheel.setVelocity(-1);
+         leftFlywheel.setVelocity(-1);
+
+     }else{
+         rightFlywheel.setVelocity(0);
+         leftFlywheel.setVelocity(0);
+     }
+
     }
 
     public double getLeftFlywheelRPM() {

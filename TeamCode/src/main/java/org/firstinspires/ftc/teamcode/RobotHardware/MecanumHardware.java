@@ -1,13 +1,19 @@
 package org.firstinspires.ftc.teamcode.RobotHardware;
 
+import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.IMU;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 
 public class MecanumHardware {
     public DcMotor rightBackDrive = null;
     public DcMotor rightFrontDrive = null;
     public DcMotor leftBackDrive = null;
     public DcMotor leftFrontDrive = null;
+    private IMU imu = null;
+
 
     public void init(HardwareMap hardwareMap) {
 
@@ -15,6 +21,8 @@ public class MecanumHardware {
         leftBackDrive = hardwareMap.get(DcMotor.class, "leftBackDrive");
         leftFrontDrive = hardwareMap.get(DcMotor.class, "leftFrontDrive");
         rightFrontDrive = hardwareMap.get(DcMotor.class, "rightFrontDrive");
+        imu = hardwareMap.get(IMU.class,"imu");
+
 
 
         // Set motor directions
@@ -28,13 +36,19 @@ public class MecanumHardware {
         leftBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightBackDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
+        RevHubOrientationOnRobot RevHubOrientation = new RevHubOrientationOnRobot(
+                RevHubOrientationOnRobot.LogoFacingDirection.RIGHT,
+                RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
+
+        imu.initialize(new IMU.Parameters(RevHubOrientation));
+
     }
     public void drive(double forward, double strafe, double turn) {
 
         double leftFrontPower = forward + strafe + turn;
-        double rightFrontPower = forward - strafe - turn;
+        double rightFrontPower = forward + strafe - turn;
         double leftBackPower = forward - strafe + turn;
-        double rightBackPower = forward + strafe - turn;
+        double rightBackPower = forward - strafe - turn;
 
         leftFrontDrive.setPower(leftFrontPower);
         rightFrontDrive.setPower(rightFrontPower);
@@ -52,6 +66,21 @@ public class MecanumHardware {
             leftBackPower /= max;
             rightBackPower /= max;
         }
+    }
+
+
+    public void driveFieldRelative(double forward, double strafe, double turn){
+        double theta = Math.atan2(forward, strafe);
+        double r = Math.hypot(strafe, forward);
+
+        theta = AngleUnit.normalizeRadians(theta-
+                imu.getRobotYawPitchRollAngles().getYaw(AngleUnit.RADIANS));
+
+        double newforward = r = Math.sin(theta);
+        double newstrafe = r = Math.cos(theta);
+
+        this.drive(newforward,newstrafe, turn);
+
     }
 
     public void stop() {

@@ -33,9 +33,14 @@ public class KalispellAuto extends OpMode{
 
         // Drive forward for 2 seconds
         while (runtime.seconds() < 2) {
-            mecanumHardware.drive(1, 0, 0);
+
+            mecanumHardware.drive(.2, 0, 0);
             telemetry.addData("Status", "Autonomous Running");
             telemetry.update();
+
+            if(runtime.seconds()> 2){
+                break;
+            }
         }
     }
 
@@ -48,9 +53,10 @@ public class KalispellAuto extends OpMode{
     @Override
     public void stop() {
         mecanumHardware.stop();
-        transferHardware.runTransfer(false);
-        intakeHardware.runIntake(false);
+        transferHardware.Transfer(TransferHardware.Direction.FORWARD, false);
+        intakeHardware.Intake(IntakeHardware.Direction.FORWARD, false);
         launcherHardware.stop();
+
     }
 
 }

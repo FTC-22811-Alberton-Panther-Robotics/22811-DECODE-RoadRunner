@@ -10,7 +10,6 @@ public class IntakeHardware {
     private DcMotorEx intakeMotor = null;
     public static enum Direction {FORWARD, REVERSE};
 
-
     public void init(HardwareMap hardwareMap) {
         intakeMotor = hardwareMap.get(DcMotorEx.class, "activeIntake");
 
@@ -22,6 +21,7 @@ public class IntakeHardware {
 
     public void Intake(Direction direction, boolean intakeOn){
         if(intakeOn && direction == Direction.FORWARD){
+
             intakeMotor.setPower(1.0);
         }else if(intakeOn && direction == Direction.REVERSE) {
             intakeMotor.setPower(-1.0);
